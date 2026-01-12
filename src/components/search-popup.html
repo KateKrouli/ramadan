@@ -1,0 +1,26 @@
+<div class="search-popup">
+    <div class="search-popup__container">
+        <div class="search-popup__title" >
+            <div></div>
+            <a class="search-popup__close">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+                    <g opacity="0.33">
+                        <path d="M12.4998 8.00033L7.49984 13.0003M7.49984 8.00033L12.4998 13.0003M18.3332 10.5003C18.3332 15.1027 14.6022 18.8337 9.99984 18.8337C5.39746 18.8337 1.6665 15.1027 1.6665 10.5003C1.6665 5.89795 5.39746 2.16699 9.99984 2.16699C14.6022 2.16699 18.3332 5.89795 18.3332 10.5003Z" stroke="#001A33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </g>
+                </svg>
+            </a>
+        </div>
+        <div class="search-popup__form search-form">
+            <input data-i18n-placeholder="search.placeholder" id="search-popup-input" name="search" type="text" class="search-input search-popup__input" placeholder="Search..." />
+            <div class="requests" id="search-requests">
+                <div class="requests__li" data-i18n="search.trending">Dashboard</div>
+                <ul>
+                    <!-- JS вставит сюда 3 случайных тренда -->
+                </ul>
+            </div>
+            <button type="submit" data-i18n="search.btn" class="btn search-popup__btn search-button" disabled>Search</button>
+            <a class=" search-popup__close search-popup__close--mobile" data-i18n="search.close">
+            </a>
+        </div>
+    </div>
+</div>

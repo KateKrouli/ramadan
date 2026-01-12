@@ -1,0 +1,172 @@
+.articles-block {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    height: 100vh;
+    gap: 60px;
+
+    @media (max-width: 767px) { 
+        height: auto;
+        padding-top: 40px;
+        padding-bottom: 40px;
+    }
+
+    &__title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        @media (max-width: 767px) { 
+            flex-direction: column;
+            align-items: flex-start;
+            width: 100%;
+            gap: 16px;
+        }
+    
+    }
+
+    &__list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        grid-column-gap: 30px;
+        grid-row-gap: 30px;
+
+        @media (max-width: 767px) { 
+            display: flex;
+            flex-direction: column;
+        }
+    }
+
+    &__more {
+        display: flex;
+        justify-content: center;
+
+        @media (max-width: 767px) { 
+            justify-content: stretch;
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    }
+
+}
+
+.article-card {
+    display: flex;
+    align-items: stretch;
+    border: 1px solid var(--semantic-neutral-100);
+    border-radius: 32px;
+
+    @media (max-width: 767px) { 
+        flex-direction: column;
+    }
+
+    &--main {
+        grid-area: 1 / 1 / 3 / 2;
+        flex-direction: column;
+
+        .article-card__image {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 32px 32px 0 0;
+
+            @media (max-width: 767px) { 
+                height: 200px;
+            }
+        }
+        
+        .article-card__title {
+            font-size: 30px;
+            line-height: 127%;
+
+            @media (max-width: 767px) { 
+                font-weight: 600;
+                font-size: 18px;
+                line-height: 156%;
+            }
+        }
+
+    }
+
+    &:nth-child(2) {
+        grid-area: 1 / 2 / 2 / 3;
+    }
+    &:nth-child(3) {
+        grid-area: 2 / 2 / 3 / 3;
+    }
+
+    &__image {
+        width: 50%;
+        height: 100%;
+        object-fit: cover;
+        background-size: cover;
+        background-position: center;
+        border-radius: 32px 0 0 32px;
+
+        @media (max-width: 767px) { 
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 32px 32px 0 0;
+        }
+    }
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        gap: 10px;
+        padding: 32px;
+    }
+
+    &__title {
+            font-weight: 500;
+            font-size: 20px;
+            line-height: 150%;
+            color: var(--text-heading-primary);
+
+            @media (max-width: 767px) { 
+                font-weight: 600;
+                font-size: 18px;
+                line-height: 156%;
+            }
+        }
+
+        &__excerpt {
+            font-size: 16px;
+            line-height: 150%;
+            color: var(--text-body);
+            margin-bottom: 16px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: normal;
+        }
+
+        &__link {
+            position: relative;
+            line-height: 22px;
+
+            @media (max-width: 767px) { 
+                padding-left: 0;
+            }
+
+            &::after {
+                content: '';
+                display: inline-block;
+                width: 20px;
+                height: 21px;
+                margin-left: 8px;
+                background: url("data:image/svg+xml;utf8,<svg width='20' height='21' viewBox='0 0 20 21' fill='none' xmlns='http://www.w3.org/2000/svg'><rect width='20' height='20' transform='translate(0 0.112793)' fill='white' fill-opacity='0.05'/><rect y='0.112793' width='20' height='20' fill='white' fill-opacity='0.05'/><path d='M7.5 5.11279L12.5 10.1128L7.5 15.1128' stroke='%231086D9' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>") no-repeat center/contain;
+                vertical-align: middle;
+            }
+        }
+}
