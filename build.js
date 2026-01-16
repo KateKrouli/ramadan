@@ -6,7 +6,6 @@ async function build() {
       entryPoints: ['src/js/main.js'],
       bundle: true,
       outfile: 'dist/js/main.js',
-      loader: { '.html': 'text' },
     });
 
     console.log('Build completed successfully');

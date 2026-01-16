@@ -1,0 +1,113 @@
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .lang-switcher, .sounds-switcher {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 60px;
+        background: rgba(0, 0, 0, 0.15);
+        box-shadow: 0 4px 43.3px 0 rgba(0, 0, 0, 0.12);
+        backdrop-filter: blur(20px);
+        position: relative;
+
+        &:after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 2px;
+            background: linear-gradient(148deg, rgb(255 255 255 / 20%), rgb(255 255 255 / 10%), rgb(255 255 255 / 5%), rgb(255 255 255 / 10%));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        &__btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px;
+            position: relative;
+
+            &:hover {
+                .lang-switcher__label, .sounds-switcher__label {
+                        opacity: 1;
+                        visibility: visible;
+                    }
+
+                }
+        }
+
+        button {
+            display: flex;
+            padding: 6px;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            border-radius: 100px;
+            border: 1px solid transparent;
+            transition: all 0.3s ease 0s;
+
+            &.selected {
+                border: 1px solid #fff;
+
+                &:hover {
+                    border: 1px solid #fff;
+                }
+            }
+
+            &:hover {
+                border: 1px solid #257CFF;
+            }
+        }
+
+        &__label { 
+            position: absolute;
+            top: 60px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease 0s;
+
+            div {
+                position: relative;
+                display: flex;
+                padding: 8px 16px;
+                justify-content: center;
+                align-items: center;
+                gap: 10px;
+                border-radius: 60px;
+                background: rgba(0, 0, 0, 0.15);
+                box-shadow: 0 4px 43.3px 0 rgba(0, 0, 0, 0.12);
+                backdrop-filter: blur(20px);
+                color: #FFF;
+                text-align: center;
+                font-family: "IBM Plex Sans";
+                font-size: 12px;
+                font-style: normal;
+                font-weight: 500;
+                line-height: normal;
+
+                &:after {
+                    content: "";
+                    position: absolute;
+                    inset: 0;
+                    border-radius: inherit;
+                    padding: 2px;
+                    background: linear-gradient(148deg, rgb(255 255 255 / 20%), rgb(255 255 255 / 10%), rgb(255 255 255 / 5%), rgb(255 255 255 / 10%));
+                    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+                    -webkit-mask-composite: xor;
+                    mask-composite: exclude;
+                    pointer-events: none;
+                    z-index: 1;
+                } 
+            }
+        }
+    }
+
+
+}

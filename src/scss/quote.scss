@@ -1,7 +1,11 @@
-.quote {
-  max-width: 500px;
+.app__quote {
+  color: rgba(255, 255, 255, 0.80);
   text-align: center;
-  color: #fff;
-  font-size: 22px;
-  opacity: 0.9;
-}
+  leading-trim: both;
+  text-edge: cap;
+  font-family: "IBM Plex Serif";
+  font-size: 28px;
+  font-style: italic;
+  font-weight: 400;
+  line-height: normal;
+  }

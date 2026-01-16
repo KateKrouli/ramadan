@@ -15,10 +15,11 @@
     "copy:server": "cp src/server.js dist/server.js",
     "copy:js": "mkdir -p dist/js && cp -r src/js/* dist/js/",
     "watch:server": "chokidar 'src/server.js' -c 'npm run copy:server'",
-    "build": "node build.js && cp src/index.html dist/index.html && cp -r src/scss dist/scss && npm run copy:images && npm run copy:components && npm run copy:js && npm run copy:server",
-    "dev": "nodemon dist/server.js",
+    "build": "node build.js && npx sass src/scss/main.scss dist/styles.css && node build-html.js && npm run copy:images && npm run copy:components && npm run copy:server",
+    "dev:server": "nodemon --watch dist/server.js --delay 1000 dist/server.js",
+    "dev": "npm-run-all --parallel dev:server watch:html watch:images watch:scss watch:js",
     "watch:images": "chokidar 'src/images/**/*' -c 'npm run copy:images'",
-    "dev:all": "npm-run-all --parallel dev watch:scss watch:js watch:html watch:images watch:server"
+    "dev:all": "npm-run-all --parallel dev:server watch:scss watch:js watch:html watch:images watch:server"
   },
   "dependencies": {
     "axios": "^0.27.2",

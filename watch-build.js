@@ -1,5 +1,5 @@
-const esbuild = require('esbuild');
-const rawPlugin = require('esbuild-plugin-raw');
+import esbuild from 'esbuild';
+import rawPlugin from 'esbuild-plugin-raw';
 
 async function watchMain() {
   try {

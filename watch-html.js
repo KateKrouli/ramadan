@@ -1,7 +1,8 @@
-const chokidar = require("chokidar");
-const fs = require("fs");
-const posthtml = require("posthtml");
-const include = require("posthtml-include");
+import chokidar from "chokidar";
+import fs from "fs";
+import path from "path";
+import posthtml from "posthtml";
+import include from "posthtml-include";
 
 function buildHtml() {
   // Собираем index.html
@@ -27,9 +28,27 @@ function buildHtml() {
   }
 }
 
-console.log("👀 Watching HTML files…");
-chokidar.watch("src/**/*.html", { ignoreInitial: true })
-  .on("all", (ev, path) => {
-    console.log(`🔁 (${ev}) ${path}`);
-    buildHtml();
+function copyJs(filePath) {
+  const relative = path.relative("src", filePath);
+  const dest = path.join("dist", relative);
+  const dir = path.dirname(dest);
+  
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+  }
+  
+  fs.copyFileSync(filePath, dest);
+  console.log(`📦 ${dest} copied`);
+}
+
+console.log("👀 Watching HTML & JS files…");
+chokidar.watch(["src/**/*.html", "src/**/*.js"], { ignoreInitial: true })
+  .on("all", (ev, filePath) => {
+    console.log(`🔁 (${ev}) ${filePath}`);
+    
+    if (filePath.endsWith(".js")) {
+      copyJs(filePath);
+    } else {
+      buildHtml();
+    }
   });

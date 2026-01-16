@@ -1,6 +1,6 @@
 export async function getCoords(city) {
   const res = await fetch(
-    `https://nominatim.openstreetmap.org/search?format=json&q=${city}`
+    `/api/geocode?q=${encodeURIComponent(city)}`
   )
   const data = await res.json()
 

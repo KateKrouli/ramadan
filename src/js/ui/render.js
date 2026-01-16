@@ -1,7 +1,14 @@
-export function renderTimer(value) {
-  document.getElementById("timer").textContent = value
+export function renderTimer(html) {
+  const el = document.getElementById("timer")
+  if (!el) return
+
+  el.innerHTML = html
 }
 
+
 export function renderQuote(text) {
-  document.getElementById("quote").textContent = text
+  const el = document.getElementById("quote")
+  if (!el) return
+
+  el.textContent = `“${text}.”`
 }

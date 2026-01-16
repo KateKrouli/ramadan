@@ -1,10 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="stylesheet" href="/scss/main.scss">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="/styles.css">
 </head>
-<body>
-  <div id="root"></div>
+<body id="root">
+  <div class="header main-width">
+    <div class="lang-switcher">
+        <div class="lang-switcher__btn">
+        <button class="lang-btn selected" data-lang="en"><img src="images/en-icon.svg"></button>
+            <div class="lang-switcher__label" "=""><div data-i18="language.en">English</div></div>
+        </div>
+         <div class="lang-switcher__btn">
+            <button class="lang-btn" data-lang="ar"><img src="images/ar-icon.svg"></button>
+            <div class="lang-switcher__label"><div data-i18="language.ar">Arabic</div></div>
+        </div>
+    </div> 
+    <div class="header__logo">
+        <img src="images/logo.webp" alt="Logo">
+    </div>
+    <div class="sounds-switcher">
+        <div class="sounds-switcher__btn">
+        <button id="sound-on" class="sound-btn selected">
+            <img src="images/sound-on-icon.svg" alt="Sound On" class="sound-on-icon">
+        </button>
+         <div class="sounds-switcher__label"><div data-i18="sound.play">Play</div></div>
+        </div>
+         <div class="sounds-switcher__btn">
+            <button id="sound-off" class="sound-btn">
+                <img src="images/sound-off-icon.svg" alt="Sound Off" class="sound-off-icon">
+            </button>
+            <div class="sounds-switcher__label"><div data-i18="sound.mute">Mute</div></div>
+        </div>
+    </div>
+</div>
+  <div id="app">
+    
+  </div>
+  <div class="footer">
+    <div class="footer__line footer__line--1"></div>
+    <div class="footer__btn" data-i18="footer.btn">Share Journey</div>
+    <div class="footer__line footer__line--2"></div>
+</div>
+
   <script type="module" src="/js/main.js"></script>
-</body>
-</html>
+</body> 
+</html> 
+   

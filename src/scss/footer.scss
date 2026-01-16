@@ -1,0 +1,46 @@
+.footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+   width: 90vw;
+ 
+    &__line {
+        flex: 1;
+        height: 1px;
+        opacity: 0.6;
+
+
+        &--1 {
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.00) 0%, #FFF 100%);
+        }
+        &--2 {
+        background: linear-gradient(90deg, #FFF 0%, rgba(255, 255, 255, 0.00) 100%);
+        }
+    }
+
+    &__btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 262px;
+        height: 58px;
+        background: url(images/btn-bg.png) no-repeat center/cover;
+        color: #FFF;
+        text-align: center;
+        leading-trim: both;
+        text-edge: cap;
+        font-family: "IBM Plex Sans";
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        transition: all 0.3s ease;
+
+        &:hover {
+            cursor: url("images/cursor.svg"), pointer;
+            background: url(images/btn-bg-hov.png) no-repeat center/cover;
+        }
+    }
+
+}

@@ -1,5 +1,48 @@
 .timer {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  color: var(--white, #FFF);
+    text-align: center;
+    leading-trim: both;
+    text-edge: cap;
+    font-family: "IBM Plex Sans";
+    font-size: 140px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+
+    span {
+      color: rgba(255, 255, 255, 0.10);
+      font-size: 80px;
+    }
+}
+
+.timer__container {
+  padding: 32px 0;
   font-size: 72px;
   font-weight: 700;
   color: white;
+  position: relative;
+
+  &:before {
+    content: "";
+    opacity: 0.6;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.00) 0%, #FFF 50%, rgba(255, 255, 255, 0.00) 100%);
+    width: 100%;
+    position: absolute;
+    top: 0;
+    height: 1px;
+    align-self: stretch;
+  }
+   &:after {
+    content: "";
+    opacity: 0.6;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.00) 0%, #FFF 50%, rgba(255, 255, 255, 0.00) 100%);
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    height: 1px;
+    align-self: stretch; 
+  }
 }
