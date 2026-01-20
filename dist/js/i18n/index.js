@@ -6,6 +6,7 @@ export const i18n = {
   init() {
     this.currentLang = localStorage.getItem("language") || "en"
     this.updatePageLanguage()
+    this.updateLanguageButtons()
   },
 
   setLanguage(lang) {
@@ -14,6 +15,7 @@ export const i18n = {
       localStorage.setItem("language", lang)
       this.updatePageLanguage()
       this.updateDOM()
+      this.updateLanguageButtons()
     }
   },
 
@@ -43,6 +45,17 @@ export const i18n = {
       const key = el.getAttribute("data-i18")
       const text = this.t(key)
       el.textContent = text
+    })
+  },
+
+  updateLanguageButtons() {
+    document.querySelectorAll(".lang-btn").forEach(btn => {
+      const lang = btn.getAttribute("data-lang")
+      if (lang === this.currentLang) {
+        btn.classList.add("selected")
+      } else {
+        btn.classList.remove("selected")
+      }
     })
   }
 }

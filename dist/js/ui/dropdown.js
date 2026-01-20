@@ -14,13 +14,17 @@ export function initDropdown(onSelect) {
   LOCATIONS.forEach(({ label, query }) => {
     const item = document.createElement("li")
     item.className = "dropdown__item"
-    item.textContent = label 
+    
+    // Получаем перевод локации или используем оригинальный текст
+    const translatedLabel = i18n.t(`dropdown.locations.${label}`) || label
+    item.textContent = translatedLabel
     item.dataset.query = query
+    item.dataset.label = label
 
     item.addEventListener("click", () => {
-      valueEl.textContent = label
+      valueEl.textContent = translatedLabel
       closeDropdown()
-      onSelect(query)
+      onSelect(query, label)
     })
 
     menu.appendChild(item)
@@ -48,7 +52,24 @@ export function initDropdown(onSelect) {
   if (LOCATIONS.length) {
     const savedLocation = localStorage.getItem("selectedLocation")
     const locationToUse = LOCATIONS.find(loc => loc.query === savedLocation) || LOCATIONS[0]
-    valueEl.textContent = locationToUse.label
-    onSelect(locationToUse.query)
+    const translatedLabel = i18n.t(`dropdown.locations.${locationToUse.label}`) || locationToUse.label
+    valueEl.textContent = translatedLabel
+    onSelect(locationToUse.query, locationToUse.label)
+  }
+
+  /* ---------- Update dropdown on language change ---------- */
+
+  // Функция для обновления текстов в dropdown при смене языка
+  window.updateDropdownLabels = function() {
+    menu.querySelectorAll("li").forEach(item => {
+      const label = item.dataset.label
+      const translatedLabel = i18n.t(`dropdown.locations.${label}`) || label
+      item.textContent = translatedLabel
+      
+      // Если этот элемент выбран, обновляем value
+      if (item.classList.contains("dropdown__item--selected")) {
+        valueEl.textContent = translatedLabel
+      }
+    })
   }
 }

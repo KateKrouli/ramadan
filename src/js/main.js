@@ -76,7 +76,7 @@ function getSavedLocation() {
 
 /* ---------- Core logic ---------- */
 
-async function loadCity(city) {
+async function loadCity(city, locationLabel = city) {
   saveLocation(city)
   
   try {
@@ -90,7 +90,8 @@ async function loadCity(city) {
     const isNightNow = now >= maghrib || now < fajr
     setMode(isNightNow ? "night" : "day")
 
-    state.currentLocationLabel = city
+    state.currentLocationLabel = locationLabel
+    state.currentLocationQuery = city
 
     // Останавливаем старый таймер
     if (timerId) {
@@ -169,20 +170,24 @@ document.addEventListener("DOMContentLoaded", () => {
       const lang = btn.getAttribute("data-lang")
       i18n.setLanguage(lang)
       
-      // Обновляем активную кнопку
-      document.querySelectorAll(".lang-btn").forEach(b => b.classList.remove("selected"))
-      btn.classList.add("selected")
-      
-      // Обновляем dropdown текст
+      // Обновляем dropdown текст и локации
       const dropdownValue = document.querySelector(".dropdown__value")
       if (dropdownValue) {
         const savedLocation = localStorage.getItem("selectedLocation")
         dropdownValue.textContent = savedLocation || i18n.t("dropdown.placeholder")
       }
       
+      // Обновляем labels в dropdown меню
+      if (window.updateDropdownLabels) {
+        window.updateDropdownLabels()
+      }
+      
       // Обновляем цитату на новом языке
       const now = new Date()
       renderQuote(pickDailyQuote(now.toISOString().slice(0, 10), lang))
+      
+      // Обновляем день на новом языке
+      renderHolidayDay(now)
     })
   })
 })

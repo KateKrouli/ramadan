@@ -3,10 +3,47 @@
   var translations = {
     en: {
       app: {
-        title: "Fasting Time"
+        title: "Fasting Time",
+        date: "Day",
+        ramadan: "Ramadan"
       },
       dropdown: {
-        placeholder: "Select location"
+        placeholder: "Select location",
+        locations: {
+          "Mecca, Saudi Arabi": "Mecca, Saudi Arabia",
+          "Medina, Saudi Arabia": "Medina, Saudi Arabia",
+          "Riyadh, Saudi Arabia": "Riyadh, Saudi Arabia",
+          "Jeddah, Saudi Arabia": "Jeddah, Saudi Arabia",
+          "Dubai, United Arab Emirates": "Dubai, United Arab Emirates",
+          "Abu Dhabi, United Arab Emirates": "Abu Dhabi, United Arab Emirates",
+          "Cairo, Egypt": "Cairo, Egypt",
+          "Istanbul, Turkey": "Istanbul, Turkey",
+          "Ankara, Turkey": "Ankara, Turkey",
+          "Doha, Qatar": "Doha, Qatar",
+          "Kuwait City, Kuwait": "Kuwait City, Kuwait",
+          "Manama, Bahrain": "Manama, Bahrain",
+          "Muscat, Oman": "Muscat, Oman",
+          "Amman, Jordan": "Amman, Jordan",
+          "Jerusalem / Al-Quds": "Jerusalem / Al-Quds",
+          "Beirut, Lebanon": "Beirut, Lebanon",
+          "Casablanca, Morocco": "Casablanca, Morocco",
+          "Rabat, Morocco": "Rabat, Morocco",
+          "Tunis, Tunisi": "Tunis, Tunisia",
+          "Algiers, Algeria": "Algiers, Algeria",
+          "Karachi, Pakistan": "Karachi, Pakistan",
+          "Lahore, Pakistan": "Lahore, Pakistan",
+          "Dhaka, Bangladesh": "Dhaka, Bangladesh",
+          "Delhi, India": "Delhi, India",
+          "Jakarta, Indonesia": "Jakarta, Indonesia",
+          "Kuala Lumpur, Malaysia": "Kuala Lumpur, Malaysia",
+          "London, United Kingdom": "London, United Kingdom",
+          "Paris, France": "Paris, France",
+          "Berlin, Germany": "Berlin, Germany",
+          "Amsterdam, Netherlands": "Amsterdam, Netherlands",
+          "New York, United States": "New York, United States",
+          "Toronto, Canada": "Toronto, Canada",
+          "Sydney, Australia": "Sydney, Australia"
+        }
       },
       footer: {
         btn: "Share Journey"
@@ -37,10 +74,47 @@
     },
     ar: {
       app: {
-        title: "\u0648\u0642\u062A \u0627\u0644\u0635\u064A\u0627\u0645"
+        title: "\u0648\u0642\u062A \u0627\u0644\u0635\u064A\u0627\u0645",
+        date: "\u0627\u0644\u064A\u0648\u0645",
+        ramadan: "\u0631\u0645\u0636\u0627\u0646"
       },
       dropdown: {
-        placeholder: "\u0627\u062E\u062A\u0631 \u0627\u0644\u0645\u0648\u0642\u0639"
+        placeholder: "\u0627\u062E\u062A\u0631 \u0627\u0644\u0645\u0648\u0642\u0639",
+        locations: {
+          "Mecca, Saudi Arabi": "\u0645\u0643\u0629\u060C \u0627\u0644\u0645\u0645\u0644\u0643\u0629 \u0627\u0644\u0639\u0631\u0628\u064A\u0629 \u0627\u0644\u0633\u0639\u0648\u062F\u064A\u0629",
+          "Medina, Saudi Arabia": "\u0627\u0644\u0645\u062F\u064A\u0646\u0629 \u0627\u0644\u0645\u0646\u0648\u0631\u0629\u060C \u0627\u0644\u0645\u0645\u0644\u0643\u0629 \u0627\u0644\u0639\u0631\u0628\u064A\u0629 \u0627\u0644\u0633\u0639\u0648\u062F\u064A\u0629",
+          "Riyadh, Saudi Arabia": "\u0627\u0644\u0631\u064A\u0627\u0636\u060C \u0627\u0644\u0645\u0645\u0644\u0643\u0629 \u0627\u0644\u0639\u0631\u0628\u064A\u0629 \u0627\u0644\u0633\u0639\u0648\u062F\u064A\u0629",
+          "Jeddah, Saudi Arabia": "\u062C\u062F\u0629\u060C \u0627\u0644\u0645\u0645\u0644\u0643\u0629 \u0627\u0644\u0639\u0631\u0628\u064A\u0629 \u0627\u0644\u0633\u0639\u0648\u062F\u064A\u0629",
+          "Dubai, United Arab Emirates": "\u062F\u0628\u064A\u060C \u0627\u0644\u0625\u0645\u0627\u0631\u0627\u062A \u0627\u0644\u0639\u0631\u0628\u064A\u0629 \u0627\u0644\u0645\u062A\u062D\u062F\u0629",
+          "Abu Dhabi, United Arab Emirates": "\u0623\u0628\u0648 \u0638\u0628\u064A\u060C \u0627\u0644\u0625\u0645\u0627\u0631\u0627\u062A \u0627\u0644\u0639\u0631\u0628\u064A\u0629 \u0627\u0644\u0645\u062A\u062D\u062F\u0629",
+          "Cairo, Egypt": "\u0627\u0644\u0642\u0627\u0647\u0631\u0629\u060C \u0645\u0635\u0631",
+          "Istanbul, Turkey": "\u0627\u0633\u0637\u0646\u0628\u0648\u0644\u060C \u062A\u0631\u0643\u064A\u0627",
+          "Ankara, Turkey": "\u0623\u0646\u0642\u0631\u0629\u060C \u062A\u0631\u0643\u064A\u0627",
+          "Doha, Qatar": "\u0627\u0644\u062F\u0648\u062D\u0629\u060C \u0642\u0637\u0631",
+          "Kuwait City, Kuwait": "\u0645\u062F\u064A\u0646\u0629 \u0627\u0644\u0643\u0648\u064A\u062A\u060C \u0627\u0644\u0643\u0648\u064A\u062A",
+          "Manama, Bahrain": "\u0627\u0644\u0645\u0646\u0627\u0645\u0629\u060C \u0627\u0644\u0628\u062D\u0631\u064A\u0646",
+          "Muscat, Oman": "\u0645\u0633\u0642\u0637\u060C \u0639\u0645\u0627\u0646",
+          "Amman, Jordan": "\u0639\u0645\u0651\u0627\u0646\u060C \u0627\u0644\u0623\u0631\u062F\u0646",
+          "Jerusalem / Al-Quds": "\u0627\u0644\u0642\u062F\u0633",
+          "Beirut, Lebanon": "\u0628\u064A\u0631\u0648\u062A\u060C \u0644\u0628\u0646\u0627\u0646",
+          "Casablanca, Morocco": "\u0627\u0644\u062F\u0627\u0631 \u0627\u0644\u0628\u064A\u0636\u0627\u0621\u060C \u0627\u0644\u0645\u063A\u0631\u0628",
+          "Rabat, Morocco": "\u0627\u0644\u0631\u0628\u0627\u0637\u060C \u0627\u0644\u0645\u063A\u0631\u0628",
+          "Tunis, Tunisi": "\u062A\u0648\u0646\u0633\u060C \u062A\u0648\u0646\u0633",
+          "Algiers, Algeria": "\u0627\u0644\u062C\u0632\u0627\u0626\u0631\u060C \u0627\u0644\u062C\u0632\u0627\u0626\u0631",
+          "Karachi, Pakistan": "\u0643\u0631\u0627\u062A\u0634\u064A\u060C \u0628\u0627\u0643\u0633\u062A\u0627\u0646",
+          "Lahore, Pakistan": "\u0644\u0627\u0647\u0648\u0631\u060C \u0628\u0627\u0643\u0633\u062A\u0627\u0646",
+          "Dhaka, Bangladesh": "\u062F\u0627\u0643\u0627\u060C \u0628\u0646\u063A\u0644\u0627\u062F\u064A\u0634",
+          "Delhi, India": "\u062F\u0644\u0647\u064A\u060C \u0627\u0644\u0647\u0646\u062F",
+          "Jakarta, Indonesia": "\u062C\u0627\u0643\u0631\u062A\u0627\u060C \u0625\u0646\u062F\u0648\u0646\u064A\u0633\u064A\u0627",
+          "Kuala Lumpur, Malaysia": "\u0643\u0648\u0627\u0644\u0627\u0644\u0645\u0628\u0648\u0631\u060C \u0645\u0627\u0644\u064A\u0632\u064A\u0627",
+          "London, United Kingdom": "\u0644\u0646\u062F\u0646\u060C \u0627\u0644\u0645\u0645\u0644\u0643\u0629 \u0627\u0644\u0645\u062A\u062D\u062F\u0629",
+          "Paris, France": "\u0628\u0627\u0631\u064A\u0633\u060C \u0641\u0631\u0646\u0633\u0627",
+          "Berlin, Germany": "\u0628\u0631\u0644\u064A\u0646\u060C \u0623\u0644\u0645\u0627\u0646\u064A\u0627",
+          "Amsterdam, Netherlands": "\u0623\u0645\u0633\u062A\u0631\u062F\u0627\u0645\u060C \u0647\u0648\u0644\u0646\u062F\u0627",
+          "New York, United States": "\u0646\u064A\u0648\u064A\u0648\u0631\u0643\u060C \u0627\u0644\u0648\u0644\u0627\u064A\u0627\u062A \u0627\u0644\u0645\u062A\u062D\u062F\u0629",
+          "Toronto, Canada": "\u062A\u0648\u0631\u0648\u0646\u062A\u0648\u060C \u0643\u0646\u062F\u0627",
+          "Sydney, Australia": "\u0633\u064A\u062F\u0646\u064A\u060C \u0623\u0633\u062A\u0631\u0627\u0644\u064A\u0627"
+        }
       },
       footer: {
         btn: "\u0634\u0627\u0631\u0643 \u0631\u062D\u0644\u062A\u0643"
@@ -77,6 +151,7 @@
     init() {
       this.currentLang = localStorage.getItem("language") || "en";
       this.updatePageLanguage();
+      this.updateLanguageButtons();
     },
     setLanguage(lang) {
       if (lang === "en" || lang === "ar") {
@@ -84,6 +159,7 @@
         localStorage.setItem("language", lang);
         this.updatePageLanguage();
         this.updateDOM();
+        this.updateLanguageButtons();
       }
     },
     getLanguage() {
@@ -107,6 +183,16 @@
         const key = el.getAttribute("data-i18");
         const text = this.t(key);
         el.textContent = text;
+      });
+    },
+    updateLanguageButtons() {
+      document.querySelectorAll(".lang-btn").forEach((btn) => {
+        const lang = btn.getAttribute("data-lang");
+        if (lang === this.currentLang) {
+          btn.classList.add("selected");
+        } else {
+          btn.classList.remove("selected");
+        }
       });
     }
   };
@@ -159,12 +245,14 @@
     LOCATIONS.forEach(({ label, query }) => {
       const item = document.createElement("li");
       item.className = "dropdown__item";
-      item.textContent = label;
+      const translatedLabel = i18n.t(`dropdown.locations.${label}`) || label;
+      item.textContent = translatedLabel;
       item.dataset.query = query;
+      item.dataset.label = label;
       item.addEventListener("click", () => {
-        valueEl.textContent = label;
+        valueEl.textContent = translatedLabel;
         closeDropdown();
-        onSelect(query);
+        onSelect(query, label);
       });
       menu.appendChild(item);
     });
@@ -181,9 +269,20 @@
     if (LOCATIONS.length) {
       const savedLocation = localStorage.getItem("selectedLocation");
       const locationToUse = LOCATIONS.find((loc) => loc.query === savedLocation) || LOCATIONS[0];
-      valueEl.textContent = locationToUse.label;
-      onSelect(locationToUse.query);
+      const translatedLabel = i18n.t(`dropdown.locations.${locationToUse.label}`) || locationToUse.label;
+      valueEl.textContent = translatedLabel;
+      onSelect(locationToUse.query, locationToUse.label);
     }
+    window.updateDropdownLabels = function() {
+      menu.querySelectorAll("li").forEach((item) => {
+        const label = item.dataset.label;
+        const translatedLabel = i18n.t(`dropdown.locations.${label}`) || label;
+        item.textContent = translatedLabel;
+        if (item.classList.contains("dropdown__item--selected")) {
+          valueEl.textContent = translatedLabel;
+        }
+      });
+    };
   }
 
   // src/js/ui/mode.js
@@ -283,6 +382,7 @@
     mode: null,
     lastFajrDate: null,
     currentLocationLabel: null,
+    currentLocationQuery: null,
     currentDate: /* @__PURE__ */ new Date()
   };
 
@@ -307,17 +407,23 @@
       return HOLIDAY_TOTAL_DAYS;
     return dayNumber;
   }
-  function formatFullDate(date) {
-    return date.toLocaleDateString("en-US", {
+  function formatFullDate(date, lang = "en") {
+    const options = {
       weekday: "long",
       month: "long",
       day: "numeric"
-    });
+    };
+    if (lang === "ar") {
+      return date.toLocaleDateString("ar-SA", options);
+    }
+    return date.toLocaleDateString("en-US", options);
   }
   function formatHolidayLine(currentDate = /* @__PURE__ */ new Date()) {
-    const fullDate = formatFullDate(currentDate);
+    const lang = i18n.getLanguage();
+    const fullDate = formatFullDate(currentDate, lang);
     const dayNumber = getHolidayDayNumber(currentDate);
-    return `${fullDate} \xB7 Day ${dayNumber} of ${HOLIDAY_TOTAL_DAYS}`;
+    const dayLabel = i18n.t("app.date");
+    return `${fullDate} \xB7 ${dayLabel} ${dayNumber} ${lang === "ar" ? "\u0645\u0646" : "of"} ${HOLIDAY_TOTAL_DAYS}`;
   }
   function renderHolidayDay(currentDate = /* @__PURE__ */ new Date()) {
     const el = document.getElementById("day");
@@ -458,7 +564,17 @@
   // src/js/core/shareSummary.js
   function buildShareSummary({ date = /* @__PURE__ */ new Date(), locationLabel }) {
     const day = getHolidayDayNumber(date);
-    return `Day ${day} of Ramadan \xB7 ${locationLabel}`;
+    const lang = i18n.getLanguage();
+    const dayLabel = i18n.t("app.date");
+    const ramadanLabel = i18n.t("app.ramadan");
+    let translatedLocation = locationLabel;
+    if (locationLabel) {
+      const location = LOCATIONS.find((loc) => loc.label === locationLabel);
+      if (location) {
+        translatedLocation = i18n.t(`dropdown.locations.${location.label}`) || location.label;
+      }
+    }
+    return `${dayLabel} ${day} ${lang === "ar" ? "\u0645\u0646" : "of"} ${ramadanLabel} \xB7 ${translatedLocation}`;
   }
 
   // src/js/ui/sharePopup.js
@@ -693,7 +809,7 @@ ${summary}`,
   function saveLocation(city) {
     localStorage.setItem("selectedLocation", city);
   }
-  async function loadCity(city) {
+  async function loadCity(city, locationLabel = city) {
     saveLocation(city);
     try {
       const { lat, lon } = await getCoords(city);
@@ -702,7 +818,8 @@ ${summary}`,
       state.currentDate = now2;
       const isNightNow = now2 >= maghrib || now2 < fajr;
       setMode(isNightNow ? "night" : "day");
-      state.currentLocationLabel = city;
+      state.currentLocationLabel = locationLabel;
+      state.currentLocationQuery = city;
       if (timerId) {
         clearInterval(timerId);
         timerId = null;
@@ -750,15 +867,17 @@ ${summary}`,
       btn.addEventListener("click", () => {
         const lang = btn.getAttribute("data-lang");
         i18n.setLanguage(lang);
-        document.querySelectorAll(".lang-btn").forEach((b) => b.classList.remove("selected"));
-        btn.classList.add("selected");
         const dropdownValue = document.querySelector(".dropdown__value");
         if (dropdownValue) {
           const savedLocation = localStorage.getItem("selectedLocation");
           dropdownValue.textContent = savedLocation || i18n.t("dropdown.placeholder");
         }
+        if (window.updateDropdownLabels) {
+          window.updateDropdownLabels();
+        }
         const now2 = /* @__PURE__ */ new Date();
         renderQuote(pickDailyQuote(now2.toISOString().slice(0, 10), lang));
+        renderHolidayDay(now2);
       });
     });
   });

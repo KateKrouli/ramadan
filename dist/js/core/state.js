@@ -4,5 +4,6 @@ export const state = {
   mode: null,
   lastFajrDate: null,
   currentLocationLabel: null,
+  currentLocationQuery: null,
   currentDate: new Date()
 }
