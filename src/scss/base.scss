@@ -127,6 +127,7 @@ body {
   justify-content: space-around;
   height: 100vh;
   max-height: 100vh;
+  transition: background 0.3s ease;
 }
 
 a {
@@ -174,13 +175,10 @@ p {
   margin-bottom: 10px;
 }
 
-
-
-
 .main-width {
   width: 100%;
   max-width: 800px;
-  padding: 0;
+  padding: 0 12px;
   margin: 0 auto;
 } 
 
@@ -190,5 +188,6 @@ p {
 }
 
 .night {
-    background-color: #1a1a2e;
+     background: url(images/night.webp) no-repeat center center fixed;
+    background-size: cover;
 }

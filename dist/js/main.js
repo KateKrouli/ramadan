@@ -1,4 +1,116 @@
 (() => {
+  // src/js/i18n/translations.js
+  var translations = {
+    en: {
+      app: {
+        title: "Fasting Time"
+      },
+      dropdown: {
+        placeholder: "Select location"
+      },
+      footer: {
+        btn: "Share Journey"
+      },
+      popup: {
+        header: "Share Journey",
+        title: {
+          day: "Fasting Today",
+          night: "Fasting Completed"
+        },
+        copyBtn: "Copy Image"
+      },
+      language: {
+        en: "English",
+        ar: "Arabic"
+      },
+      sound: {
+        play: "Play",
+        mute: "Mute"
+      },
+      timer: {
+        complete: "May your fast be accepted",
+        iftar: "Iftar Time"
+      },
+      error: {
+        cityNotFound: "City not found"
+      }
+    },
+    ar: {
+      app: {
+        title: "\u0648\u0642\u062A \u0627\u0644\u0635\u064A\u0627\u0645"
+      },
+      dropdown: {
+        placeholder: "\u0627\u062E\u062A\u0631 \u0627\u0644\u0645\u0648\u0642\u0639"
+      },
+      footer: {
+        btn: "\u0634\u0627\u0631\u0643 \u0631\u062D\u0644\u062A\u0643"
+      },
+      popup: {
+        header: "\u0634\u0627\u0631\u0643 \u0631\u062D\u0644\u062A\u0643",
+        title: {
+          day: "\u0627\u0644\u0635\u064A\u0627\u0645 \u0627\u0644\u064A\u0648\u0645",
+          night: "\u062A\u0645 \u0625\u0643\u0645\u0627\u0644 \u0627\u0644\u0635\u064A\u0627\u0645"
+        },
+        copyBtn: "\u0627\u0646\u0633\u062E \u0627\u0644\u0635\u0648\u0631\u0629"
+      },
+      language: {
+        en: "\u0627\u0644\u0625\u0646\u062C\u0644\u064A\u0632\u064A\u0629",
+        ar: "\u0627\u0644\u0639\u0631\u0628\u064A\u0629"
+      },
+      sound: {
+        play: "\u062A\u0634\u063A\u064A\u0644",
+        mute: "\u0643\u062A\u0645 \u0627\u0644\u0635\u0648\u062A"
+      },
+      timer: {
+        complete: "\u0642\u0628\u0644 \u0627\u0644\u0644\u0647 \u0635\u064A\u0627\u0645\u0643",
+        iftar: "\u0648\u0642\u062A \u0627\u0644\u0625\u0641\u0637\u0627\u0631"
+      },
+      error: {
+        cityNotFound: "\u0644\u0645 \u064A\u062A\u0645 \u0627\u0644\u0639\u062B\u0648\u0631 \u0639\u0644\u0649 \u0627\u0644\u0645\u062F\u064A\u0646\u0629"
+      }
+    }
+  };
+
+  // src/js/i18n/index.js
+  var i18n = {
+    currentLang: localStorage.getItem("language") || "en",
+    init() {
+      this.currentLang = localStorage.getItem("language") || "en";
+      this.updatePageLanguage();
+    },
+    setLanguage(lang) {
+      if (lang === "en" || lang === "ar") {
+        this.currentLang = lang;
+        localStorage.setItem("language", lang);
+        this.updatePageLanguage();
+        this.updateDOM();
+      }
+    },
+    getLanguage() {
+      return this.currentLang;
+    },
+    t(key) {
+      const keys = key.split(".");
+      let value = translations[this.currentLang];
+      for (const k of keys) {
+        value = value?.[k];
+      }
+      return value || key;
+    },
+    updatePageLanguage() {
+      const htmlElement = document.documentElement;
+      htmlElement.lang = this.currentLang;
+      htmlElement.dir = this.currentLang === "ar" ? "rtl" : "ltr";
+    },
+    updateDOM() {
+      document.querySelectorAll("[data-i18]").forEach((el) => {
+        const key = el.getAttribute("data-i18");
+        const text = this.t(key);
+        el.textContent = text;
+      });
+    }
+  };
+
   // src/js/config/locations.js
   var LOCATIONS = [
     { label: "Mecca, Saudi Arabi", query: "Mecca, Saudi Arabia" },
@@ -67,9 +179,10 @@
       dropdown2.classList.remove("dropdown--open");
     }
     if (LOCATIONS.length) {
-      const first = LOCATIONS[0];
-      valueEl.textContent = first.label;
-      onSelect(first.query);
+      const savedLocation = localStorage.getItem("selectedLocation");
+      const locationToUse = LOCATIONS.find((loc) => loc.query === savedLocation) || LOCATIONS[0];
+      valueEl.textContent = locationToUse.label;
+      onSelect(locationToUse.query);
     }
   }
 
@@ -81,11 +194,23 @@
   }
 
   // src/js/ui/render.js
-  function renderTimer(html) {
-    const el = document.getElementById("timer");
-    if (!el)
+  function renderTimer(valueOrMode) {
+    const timerEl = document.getElementById("timer");
+    if (!timerEl)
       return;
-    el.innerHTML = html;
+    const titleEl = document.querySelector(".app__title");
+    const contentEl = document.querySelector(".app__content");
+    if (valueOrMode === "night-complete") {
+      if (titleEl)
+        titleEl.textContent = i18n.t("timer.iftar");
+      contentEl.style.display = "none";
+      timerEl.classList.add("timer--complete");
+      timerEl.textContent = i18n.t("timer.complete");
+      return;
+    }
+    timerEl.innerHTML = valueOrMode;
+    if (titleEl)
+      titleEl.textContent = i18n.t("app.title");
   }
   function renderQuote(text) {
     const el = document.getElementById("quote");
@@ -101,7 +226,7 @@
     );
     const data = await res.json();
     if (!data || data.length === 0) {
-      throw new Error(`\u0413\u043E\u0440\u043E\u0434 "${city}" \u043D\u0435 \u043D\u0430\u0439\u0434\u0435\u043D`);
+      throw new Error(i18n.t("error.cityNotFound"));
     }
     return {
       lat: parseFloat(data[0].lat),
@@ -156,8 +281,9 @@
     fajr: null,
     maghrib: null,
     mode: null,
-    lastFajrDate: null
-    // YYYY-MM-DD
+    lastFajrDate: null,
+    currentLocationLabel: null,
+    currentDate: /* @__PURE__ */ new Date()
   };
 
   // src/js/core/dayCounter.js
@@ -329,6 +455,203 @@
     return QUOTES[index][lang];
   }
 
+  // src/js/core/shareSummary.js
+  function buildShareSummary({ date = /* @__PURE__ */ new Date(), locationLabel }) {
+    const day = getHolidayDayNumber(date);
+    return `Day ${day} of Ramadan \xB7 ${locationLabel}`;
+  }
+
+  // src/js/ui/sharePopup.js
+  var html2canvas = window.html2canvas;
+  var currentSummary = "";
+  var isSharing = false;
+  var previewImg = null;
+  function initSharePopup() {
+    const popup = document.querySelector(".share-popup");
+    const closeBtn = popup?.querySelector(".share-popup__close-btn");
+    closeBtn?.addEventListener("click", () => {
+      closePopup();
+      removePreview();
+    });
+  }
+  function openSharePopup({ date, locationLabel }) {
+    const overlay = document.querySelector(".overlay");
+    const popup = document.querySelector(".share-popup");
+    if (!popup || !overlay)
+      return;
+    currentSummary = buildShareSummary({ date, locationLabel });
+    const summaryEl = popup.querySelector(".share-popup__summary");
+    if (summaryEl)
+      summaryEl.textContent = currentSummary;
+    overlay.classList.add("is-visible");
+  }
+  function closePopup() {
+    const overlay = document.querySelector(".overlay");
+    overlay?.classList.remove("is-visible");
+    removePreview();
+  }
+  function initShareActions() {
+    const popup = document.querySelector(".share-popup");
+    if (!popup)
+      return;
+    const copyTextBtn = popup.querySelector(".share-popup__action-btn--copy-text");
+    const copyImageBtn = popup.querySelector(".share-popup__action-btn--copy-image");
+    const shareNativeBtn = popup.querySelector(".share-popup__action-link--share");
+    const shareInstagramBtn = popup.querySelector(".share-popup__action-link--share-inst");
+    const shareWhatsAppBtn = popup.querySelector(".share-popup__action-link--share-whatsapp");
+    const shareTelegramBtn = popup.querySelector(".share-popup__action-link--share-telegram");
+    const contentEl = popup.querySelector(".share-popup__content");
+    copyTextBtn?.addEventListener("click", async () => {
+      if (!currentSummary)
+        return;
+      try {
+        await navigator.clipboard.writeText(currentSummary);
+        copyTextBtn.textContent = "Copied";
+        setTimeout(() => copyTextBtn.textContent = "Copy Text", 1500);
+      } catch (err) {
+        console.error("Copy failed:", err);
+      }
+    });
+    copyImageBtn?.addEventListener("click", async () => {
+      try {
+        if (!previewImg) {
+          const canvas = await html2canvas(contentEl);
+          const dataUrl = canvas.toDataURL("image/png");
+          showPreview(popup, dataUrl);
+        }
+        const response = await fetch(previewImg.src);
+        const blob = await response.blob();
+        await navigator.clipboard.write([new ClipboardItem({ [blob.type]: blob })]);
+        copyImageBtn.textContent = "Copied";
+        setTimeout(() => copyImageBtn.textContent = "Copy Image", 1500);
+      } catch (err) {
+        console.error("Copy image failed:", err);
+      }
+    });
+    shareNativeBtn?.addEventListener("click", async (e) => {
+      e.preventDefault();
+      if (isSharing)
+        return;
+      if (!navigator.share)
+        return;
+      const payload = buildSharePayload(popup);
+      if (!payload)
+        return;
+      try {
+        isSharing = true;
+        await navigator.share(payload);
+      } catch (err) {
+        if (err.name !== "AbortError")
+          console.error("Share failed:", err);
+      } finally {
+        isSharing = false;
+      }
+    });
+    shareInstagramBtn?.addEventListener("click", async (e) => {
+      e.preventDefault();
+      try {
+        const canvas = await html2canvas(contentEl);
+        const dataUrl = canvas.toDataURL("image/png");
+        showPreview(popup, dataUrl);
+        const blob = await (await fetch(dataUrl)).blob();
+        const file = new File([blob], "fasting.png", { type: "image/png" });
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          await navigator.share({ files: [file], title: "Fasting Today" });
+        }
+      } catch (err) {
+        console.error("Instagram share failed", err);
+      }
+    });
+    shareWhatsAppBtn?.addEventListener("click", async (e) => {
+      e.preventDefault();
+      try {
+        const canvas = await html2canvas(contentEl);
+        const dataUrl = canvas.toDataURL("image/png");
+        showPreview(popup, dataUrl);
+        const text = [
+          popup.querySelector(".share-popup__title")?.textContent || "",
+          popup.querySelector(".share-popup__summary")?.textContent || ""
+        ].join("\n");
+        window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, "_blank");
+      } catch (err) {
+        console.error("WhatsApp share failed", err);
+      }
+    });
+    shareTelegramBtn?.addEventListener("click", async (e) => {
+      e.preventDefault();
+      try {
+        const canvas = await html2canvas(contentEl);
+        const dataUrl = canvas.toDataURL("image/png");
+        showPreview(popup, dataUrl);
+        const text = [
+          popup.querySelector(".share-popup__title")?.textContent || "",
+          popup.querySelector(".share-popup__summary")?.textContent || ""
+        ].join("\n");
+        window.open(
+          `https://t.me/share/url?url=&text=${encodeURIComponent(text)}`,
+          "_blank"
+        );
+      } catch (err) {
+        console.error("Telegram share failed", err);
+      }
+    });
+  }
+  function buildSharePayload(popup) {
+    const title2 = popup.querySelector(".share-popup__title")?.textContent;
+    const summary = popup.querySelector(".share-popup__summary")?.textContent;
+    if (!title2 || !summary)
+      return null;
+    return {
+      title: title2,
+      text: `${title2}
+${summary}`,
+      url: window.location.href
+    };
+  }
+  function showPreview(popup, dataUrl) {
+    removePreview();
+    const img = document.createElement("img");
+    img.src = dataUrl;
+    img.className = "share-popup__preview";
+    Object.assign(img.style, {
+      display: "block",
+      width: "200px",
+      maxWidth: "90%",
+      margin: "16px auto",
+      borderRadius: "16px",
+      boxShadow: "0 8px 20px rgba(0,0,0,0.3)",
+      opacity: "0",
+      transition: "transform 0.3s ease, opacity 0.3s ease",
+      position: "absolute",
+      top: "50%",
+      marginTop: "-50px",
+      transform: "scale(0.8)"
+    });
+    const contentEl = popup.querySelector(".share-popup__content");
+    contentEl.appendChild(img);
+    previewImg = img;
+    requestAnimationFrame(() => {
+      img.style.transform = "scale(1)";
+      img.style.opacity = "1";
+    });
+    setTimeout(() => removePreview(), 1e3);
+  }
+  function removePreview() {
+    if (!previewImg)
+      return;
+    previewImg.style.transform = "scale(0.8)";
+    previewImg.style.opacity = "0";
+    previewImg.addEventListener(
+      "transitionend",
+      () => {
+        if (previewImg?.parentNode)
+          previewImg.parentNode.removeChild(previewImg);
+        previewImg = null;
+      },
+      { once: true }
+    );
+  }
+
   // src/js/main.js
   var title = `<h1 class="app__title" data-i18="app.title">Fasting Time</h1>`;
   var timer = `<div class="timer__container">
@@ -367,38 +690,45 @@
   `;
   }
   var timerId = null;
+  function saveLocation(city) {
+    localStorage.setItem("selectedLocation", city);
+  }
   async function loadCity(city) {
+    saveLocation(city);
     try {
       const { lat, lon } = await getCoords(city);
       const { fajr, maghrib } = await getPrayerTimes(lat, lon);
       const now2 = /* @__PURE__ */ new Date();
-      const isNightNow = now2 > maghrib || now2 < fajr;
+      state.currentDate = now2;
+      const isNightNow = now2 >= maghrib || now2 < fajr;
       setMode(isNightNow ? "night" : "day");
-      const target = isNightNow ? fajr : maghrib;
+      state.currentLocationLabel = city;
       if (timerId) {
         clearInterval(timerId);
         timerId = null;
       }
-      if (!state.lastFajrDate) {
-        state.lastFajrDate = now2.toISOString().slice(0, 10);
-      }
-      renderQuote(pickDailyQuote(state.lastFajrDate));
       renderHolidayDay(now2);
-      timerId = startTimer(target, renderTimer, () => {
-        const now3 = /* @__PURE__ */ new Date();
-        const isNight = now3 > maghrib || now3 < fajr;
-        if (!isNight) {
-          const today = now3.toISOString().slice(0, 10);
-          state.lastFajrDate = today;
-          renderQuote(pickDailyQuote(today));
+      const todayKey = now2.toISOString().slice(0, 10);
+      if (!state.lastFajrDate || state.lastFajrDate !== todayKey) {
+        state.lastFajrDate = todayKey;
+        renderQuote(pickDailyQuote(todayKey, i18n.getLanguage()));
+      }
+      if (isNightNow) {
+        renderTimer("night-complete");
+      } else {
+        timerId = startTimer(maghrib, (value) => renderTimer(value), () => {
+          renderTimer("night-complete");
+          setMode("night");
+          const now3 = /* @__PURE__ */ new Date();
+          const todayKey2 = now3.toISOString().slice(0, 10);
+          state.lastFajrDate = todayKey2;
+          renderQuote(pickDailyQuote(todayKey2, i18n.getLanguage()));
           renderHolidayDay(now3);
-        }
-        setMode(isNight ? "night" : "day");
-        loadCity(city);
-      });
+        });
+      }
     } catch (err) {
       console.error("\u041E\u0448\u0438\u0431\u043A\u0430 \u043F\u0440\u0438 \u0437\u0430\u0433\u0440\u0443\u0437\u043A\u0435 \u0433\u043E\u0440\u043E\u0434\u0430:", err);
-      renderQuote(`\u041E\u0448\u0438\u0431\u043A\u0430: \u0433\u043E\u0440\u043E\u0434 "${city}" \u043D\u0435 \u043D\u0430\u0439\u0434\u0435\u043D`);
+      renderQuote(`${i18n.t("error.cityNotFound")} "${city}"`);
       renderTimer("00:00:00");
     }
   }
@@ -409,6 +739,33 @@
   maghribTime.setHours(17, 30, 0);
   var isNightOnLoad = now > maghribTime || now < fajrTime;
   setMode(isNightOnLoad ? "night" : "day");
+  i18n.init();
   renderHolidayDay(now);
   initDropdown(loadCity);
+  document.addEventListener("DOMContentLoaded", () => {
+    initSharePopup();
+    initShareActions();
+    i18n.updateDOM();
+    document.querySelectorAll(".lang-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const lang = btn.getAttribute("data-lang");
+        i18n.setLanguage(lang);
+        document.querySelectorAll(".lang-btn").forEach((b) => b.classList.remove("selected"));
+        btn.classList.add("selected");
+        const dropdownValue = document.querySelector(".dropdown__value");
+        if (dropdownValue) {
+          const savedLocation = localStorage.getItem("selectedLocation");
+          dropdownValue.textContent = savedLocation || i18n.t("dropdown.placeholder");
+        }
+        const now2 = /* @__PURE__ */ new Date();
+        renderQuote(pickDailyQuote(now2.toISOString().slice(0, 10), lang));
+      });
+    });
+  });
+  document.querySelector(".footer__btn")?.addEventListener("click", () => {
+    openSharePopup({
+      date: /* @__PURE__ */ new Date(),
+      locationLabel: state.currentLocationLabel
+    });
+  });
 })();

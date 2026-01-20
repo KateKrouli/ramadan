@@ -1,3 +1,5 @@
+import { i18n } from "../i18n/index.js"
+
 export async function getCoords(city) {
   const res = await fetch(
     `/api/geocode?q=${encodeURIComponent(city)}`
@@ -5,7 +7,7 @@ export async function getCoords(city) {
   const data = await res.json()
 
   if (!data || data.length === 0) {
-    throw new Error(`Город "${city}" не найден`)
+    throw new Error(i18n.t("error.cityNotFound"))
   }
 
   return {

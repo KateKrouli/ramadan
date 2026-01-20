@@ -1,4 +1,5 @@
 import { LOCATIONS } from "../config/locations.js"
+import { i18n } from "../i18n/index.js"
 
 export function initDropdown(onSelect) {
   const dropdown = document.getElementById("locationDropdown")
@@ -45,8 +46,9 @@ export function initDropdown(onSelect) {
   /* ---------- Init default ---------- */
 
   if (LOCATIONS.length) {
-    const first = LOCATIONS[0]
-    valueEl.textContent = first.label
-    onSelect(first.query)
+    const savedLocation = localStorage.getItem("selectedLocation")
+    const locationToUse = LOCATIONS.find(loc => loc.query === savedLocation) || LOCATIONS[0]
+    valueEl.textContent = locationToUse.label
+    onSelect(locationToUse.query)
   }
 }

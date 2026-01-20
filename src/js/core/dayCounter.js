@@ -54,3 +54,18 @@ export function renderHolidayDay(currentDate = new Date()) {
 
   el.textContent = formatHolidayLine(currentDate)
 }
+
+
+export function buildHolidaySummary({
+  date = new Date(),
+  locationLabel = ""
+  } = {}) {
+    const dayNumber = getHolidayDayNumber(date)
+
+    const locationPart = locationLabel
+      ? ` · ${locationLabel}`
+      : ""
+
+    return `Day ${dayNumber} of ${HOLIDAY_TOTAL_DAYS}${locationPart}`
+  }
+

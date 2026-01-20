@@ -1,6 +1,5 @@
 .dropdown {
   position: relative;
-  width: 320px;
 
   &__toggle {
     width: 100%;
@@ -29,7 +28,9 @@
     z-index: 10;
     height: 397px;
     max-height: 40vh;
-
+    width: 320px;
+    left: 50%;
+    transform: translateX(-50%);
     overflow-y: hidden;
 }
 

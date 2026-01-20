@@ -28,6 +28,7 @@ const dayTpl = `<div id="day" class="app__date"></div>`
 
 /* ---------- Imports ---------- */
 
+import { i18n } from "./i18n/index.js"
 import { initDropdown } from "./ui/dropdown.js"
 import { setMode } from "./ui/mode.js"
 import { renderTimer, renderQuote } from "./ui/render.js"
@@ -37,6 +38,11 @@ import { startTimer } from "./core/timer.js"
 import { state } from "./core/state.js"
 import { pickDailyQuote } from "./core/quotes.js"
 import { renderHolidayDay } from "./core/dayCounter.js"
+import {
+  initSharePopup,
+  initShareActions,
+  openSharePopup
+} from "./ui/sharePopup.js"
 
 /* ---------- Render layout ---------- */
 
@@ -58,19 +64,33 @@ if (appElement) {
 
 let timerId = null
 
+/* ---------- LocalStorage helper ---------- */
+
+function saveLocation(city) {
+  localStorage.setItem("selectedLocation", city)
+}
+
+function getSavedLocation() {
+  return localStorage.getItem("selectedLocation")
+}
+
 /* ---------- Core logic ---------- */
 
 async function loadCity(city) {
+  saveLocation(city)
+  
   try {
     const { lat, lon } = await getCoords(city)
     const { fajr, maghrib } = await getPrayerTimes(lat, lon)
 
     const now = new Date()
-    const isNightNow = now > maghrib || now < fajr
+    state.currentDate = now
 
+    // Определяем, ночь или день
+    const isNightNow = now >= maghrib || now < fajr
     setMode(isNightNow ? "night" : "day")
 
-    const target = isNightNow ? fajr : maghrib
+    state.currentLocationLabel = city
 
     // Останавливаем старый таймер
     if (timerId) {
@@ -78,42 +98,43 @@ async function loadCity(city) {
       timerId = null
     }
 
-    // Инициализация цитаты (1 раз в сутки)
-    if (!state.lastFajrDate) {
-      state.lastFajrDate = now.toISOString().slice(0, 10)
-    }
-
-    renderQuote(pickDailyQuote(state.lastFajrDate))
-    
     // Рендер праздничного дня
     renderHolidayDay(now)
 
-    // Запускаем таймер
-    timerId = startTimer(target, renderTimer, () => {
-      const now = new Date()
-      const isNight = now > maghrib || now < fajr
+    // Рендер цитаты (только раз в день)
+    const todayKey = now.toISOString().slice(0, 10)
+    if (!state.lastFajrDate || state.lastFajrDate !== todayKey) {
+      state.lastFajrDate = todayKey
+      renderQuote(pickDailyQuote(todayKey, i18n.getLanguage()))
+    }
 
-      // Наступил Фаджр → новый день
-      if (!isNight) {
-        const today = now.toISOString().slice(0, 10)
-        state.lastFajrDate = today
+    if (isNightNow) {
+      // Если наступила ночь — сразу показываем Iftar Time
+      renderTimer("night-complete")
+    } else {
+      // Таймер обратного отсчёта до Maghrib
+      timerId = startTimer(maghrib, (value) => renderTimer(value), () => {
+        // Когда таймер завершился — наступила ночь
+        renderTimer("night-complete")
+        setMode("night")
 
-        renderQuote(pickDailyQuote(today))
+        // Обновляем цитату и праздничный день для нового дня
+        const now = new Date()
+        const todayKey = now.toISOString().slice(0, 10)
+        state.lastFajrDate = todayKey
+        renderQuote(pickDailyQuote(todayKey, i18n.getLanguage()))
         renderHolidayDay(now)
-      }
-
-      setMode(isNight ? "night" : "day")
-
-      // Перезапуск цикла
-      loadCity(city)
-    })
+      })
+    }
 
   } catch (err) {
     console.error("Ошибка при загрузке города:", err)
-    renderQuote(`Ошибка: город "${city}" не найден`)
+    renderQuote(`${i18n.t("error.cityNotFound")} "${city}"`)
     renderTimer("00:00:00")
   }
 }
+
+
 
 /* ---------- Init ---------- */
 
@@ -126,8 +147,53 @@ maghribTime.setHours(17, 30, 0)
 const isNightOnLoad = now > maghribTime || now < fajrTime
 setMode(isNightOnLoad ? "night" : "day")
 
+// Инициализация i18n
+i18n.init()
+
 // Рендер праздничного дня сразу
 renderHolidayDay(now)
 
 // Инициализация dropdown
 initDropdown(loadCity)
+
+document.addEventListener("DOMContentLoaded", () => {
+  initSharePopup()
+  initShareActions()
+  
+  // Обновляем содержимое после загрузки DOM (для data-i18 атрибутов)
+  i18n.updateDOM()
+  
+  // Инициализируем обработчики смены языка
+  document.querySelectorAll(".lang-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const lang = btn.getAttribute("data-lang")
+      i18n.setLanguage(lang)
+      
+      // Обновляем активную кнопку
+      document.querySelectorAll(".lang-btn").forEach(b => b.classList.remove("selected"))
+      btn.classList.add("selected")
+      
+      // Обновляем dropdown текст
+      const dropdownValue = document.querySelector(".dropdown__value")
+      if (dropdownValue) {
+        const savedLocation = localStorage.getItem("selectedLocation")
+        dropdownValue.textContent = savedLocation || i18n.t("dropdown.placeholder")
+      }
+      
+      // Обновляем цитату на новом языке
+      const now = new Date()
+      renderQuote(pickDailyQuote(now.toISOString().slice(0, 10), lang))
+    })
+  })
+})
+
+
+document
+  .querySelector(".footer__btn")
+  ?.addEventListener("click", () => {
+    openSharePopup({
+      date: new Date(),
+      locationLabel: state.currentLocationLabel
+    })
+  })
+

@@ -10,11 +10,20 @@
     font-size: 140px;
     font-style: normal;
     font-weight: 500;
-    line-height: normal;
-
+    line-height: 100px;
     span {
       color: rgba(255, 255, 255, 0.10);
       font-size: 80px;
+    }
+
+    @media (max-width: 830px) {
+      font-size: 18vw;
+      gap: 3vw;
+    }
+
+    &--complete {
+      font-size: 20px;
+      line-height: 30px;
     }
 }
 
@@ -44,5 +53,13 @@
     bottom: 0;
     height: 1px;
     align-self: stretch; 
+  }
+
+  &:has(.timer--complete) {
+    &:before,
+    &:after {
+      display: none;
+    }
+    padding: 0;
   }
 }

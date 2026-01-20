@@ -2,6 +2,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: relative;
+    z-index: 9;
 
     .lang-switcher, .sounds-switcher {
         display: flex;
@@ -38,6 +40,7 @@
                 .lang-switcher__label, .sounds-switcher__label {
                         opacity: 1;
                         visibility: visible;
+                        white-space: nowrap;
                     }
 
                 }
@@ -109,5 +112,19 @@
         }
     }
 
+    &__logo {
+        .logo--mobile {
+            display: none;
+        }
+
+        @media (max-width: 444px) {
+            .logo--desktop {
+                display: none;
+            }
+            .logo--mobile {
+                display: block;
+            }
+        }
+    }
 
 }
